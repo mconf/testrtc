@@ -40,18 +40,6 @@ Report.prototype = {
     return this.traceEventWithId.bind(this, name, this.nextAsyncId_++);
   },
 
-  logTestRunResult: function(testName, status) {
-    // Google Analytics event for the test result to allow to track how the
-    // test is doing in the wild.
-    ga('send', {
-      'hitType': 'event',
-      'eventCategory': 'Test',
-      'eventAction': status,
-      'eventLabel': testName,
-      'nonInteraction': 1
-    });
-  },
-
   generate: function(bugDescription) {
     var header = {'title': 'WebRTC Troubleshooter bug report',
       'description': bugDescription || null};
