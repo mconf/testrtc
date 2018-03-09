@@ -67,12 +67,12 @@ grunt
 ```
 
 #### Build testrtc ####
-Cleans out/ folder if it exists else it's created, then it copies and vulcanizes the resources needed to deploy this on Google App Engine.
+Cleans out/ folder if it exists else it's created, then it copies and vulcanizes the resources needed to deploy.
 ```
 grunt build
 ```
 
-#### Run vulcanized version of TestRTC using [Google App Engine SDK for Python](https://cloud.google.com/appengine/downloads) (requires the Build testrtc step to be performed first). ####
+#### Run vulcanized version of TestRTC (requires the Build testrtc step to be performed first). ####
 ```bash
-python dev_appserver.py out/app.yml
+node server.js
 ```
