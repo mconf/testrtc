@@ -231,88 +231,48 @@ Call.cachedIceServers_ = null;
 // Keep track of when the request was made.
 Call.cachedIceConfigFetchTime_ = null;
 
-// Get a TURN config, either from settings or from network traversal server.
+// Get a TURN config
 Call.asyncCreateTurnConfig = function(onSuccess, onError) {
   var settings = currentTest.settings;
+  var iceServer = {};
   if (typeof(settings.turnURI) === 'string' && settings.turnURI !== '') {
-    var iceServer = {
+    iceServer = {
       'username': settings.turnUsername || '',
       'credential': settings.turnCredential || '',
       'urls': settings.turnURI.split(',')
     };
-    var config = {'iceServers': [iceServer]};
-    report.traceEventInstant('turn-config', config);
-    setTimeout(onSuccess.bind(null, config), 0);
+  } else if (typeof(TURN_URL) === 'string' && TURN_URL !== '') {
+    iceServer = {
+      'username': TURN_USERNAME || '',
+      'credential': TURN_CREDENTIAL || '',
+      'urls': TURN_URL.split(',')
+    };
   } else {
-    Call.fetchTurnConfig_(function(response) {
-      var config = {'iceServers': response.iceServers};
-      report.traceEventInstant('turn-config', config);
-      onSuccess(config);
-    }, onError);
+    onError('TURN request failed');
+    return;
   }
+  var config = {'iceServers': [iceServer]};
+  report.traceEventInstant('turn-config', config);
+  setTimeout(onSuccess.bind(null, config), 0);
 };
 
-// Get a STUN config, either from settings or from network traversal server.
+// Get a STUN config
 Call.asyncCreateStunConfig = function(onSuccess, onError) {
   var settings = currentTest.settings;
+  var iceServer = {};
   if (typeof(settings.stunURI) === 'string' && settings.stunURI !== '') {
-    var iceServer = {
+    iceServer = {
       'urls': settings.stunURI.split(',')
     };
-    var config = {'iceServers': [iceServer]};
-    report.traceEventInstant('stun-config', config);
-    setTimeout(onSuccess.bind(null, config), 0);
-  } else {
-    Call.fetchTurnConfig_(function(response) {
-      var config = {'iceServers': response.iceServers.urls};
-      report.traceEventInstant('stun-config', config);
-      onSuccess(config);
-    }, onError);
-  }
-};
-
-// Ask network traversal API to give us TURN server credentials and URLs.
-Call.fetchTurnConfig_ = function(onSuccess, onError) {
-  // Check if credentials exist or have expired (and subtract testRuntTIme so
-  // that the test can finish if near the end of the lifetime duration).
-  // lifetimeDuration is in seconds.
-  var testRunTime = 240; // Time in seconds to allow a test run to complete.
-  if (Call.cachedIceServers_) {
-    var isCachedIceConfigExpired =
-      ((Date.now() - Call.cachedIceConfigFetchTime_) / 1000 >
-      parseInt(Call.cachedIceServers_.lifetimeDuration) - testRunTime);
-    if (!isCachedIceConfigExpired) {
-      report.traceEventInstant('fetch-ice-config', 'Using cached credentials.');
-      onSuccess(Call.getCachedIceCredentials_());
-      return;
-    }
-  }
-
-  var xhr = new XMLHttpRequest();
-  function onResult() {
-    if (xhr.readyState !== 4) {
-      return;
-    }
-
-    if (xhr.status !== 200) {
-      onError('TURN request failed');
-      return;
-    }
-
-    var response = JSON.parse(xhr.responseText);
-    Call.cachedIceServers_ = response;
-    Call.getCachedIceCredentials_ = function() {
-      // Make a new object due to tests modifying the original response object.
-      return JSON.parse(JSON.stringify(Call.cachedIceServers_));
+  } else if (typeof(STUN_URL) === 'string' && STUN_URL !== '') {
+    iceServer = {
+      'urls': STUN_URL.split(',')
     };
-    Call.cachedIceConfigFetchTime_ = Date.now();
-    report.traceEventInstant('fetch-ice-config', 'Fetching new credentials.');
-    onSuccess(Call.getCachedIceCredentials_());
+  } else {
+    onError('STUN request failed');
+    return;
   }
-
-  xhr.onreadystatechange = onResult;
-  // API_KEY and TURN_URL is replaced with API_KEY environment variable via
-  // Gruntfile.js during build time by uglifyJS.
-  xhr.open('POST', TURN_URL + API_KEY, true);
-  xhr.send();
+  var config = {'iceServers': [iceServer]};
+  report.traceEventInstant('stun-config', config);
+  setTimeout(onSuccess.bind(null, config), 0);
 };
