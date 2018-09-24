@@ -49,7 +49,7 @@ function MicTest(test) {
 MicTest.prototype = {
   run: function() {
     if (typeof audioContext === 'undefined') {
-      this.test.reportError('WebAudio is not supported, test cannot run.');
+      this.test.reportError('WebAudio não é suportado, teste não pode ser executado.');
       this.test.done();
     } else {
       doGetUserMedia(this.constraints, this.gotStream.bind(this));
@@ -68,10 +68,10 @@ MicTest.prototype = {
     this.stream = stream;
     var audioTracks = stream.getAudioTracks();
     if (audioTracks.length < 1) {
-      this.test.reportError('No audio track in returned stream.');
+      this.test.reportError('Nenhuma trilha de áudio encontrada na stream.');
       return false;
     }
-    this.test.reportSuccess('Audio track created using device=' +
+    this.test.reportSuccess('Trilha de áudio criada utilizando o dispositivo ' +
         audioTracks[0].label);
     return true;
   },
@@ -137,11 +137,9 @@ MicTest.prototype = {
       }
     }
     if (activeChannels.length === 0) {
-      this.test.reportError('No active input channels detected. Microphone ' +
-          'is most likely muted or broken, please check if muted in the ' +
-          'sound settings or physically on the device. Then rerun the test.');
+      this.test.reportError('Nenhuma atividade detectada nos dispositivos de captura. O microfone está em mudo ou estragado, por favor verifique se ele está em mudo nas configurações de som do seu computador ou no dispositivo físico, e então execute o teste novamente.');
     } else {
-      this.test.reportSuccess('Active audio input channels: ' +
+      this.test.reportSuccess('Canais de entrada de áudio ativos: ' +
           activeChannels.length);
     }
     if (activeChannels.length === 2) {
@@ -181,15 +179,13 @@ MicTest.prototype = {
     if (maxPeak > this.silentThreshold) {
       var dBPeak = this.dBFS(maxPeak);
       var dBRms = this.dBFS(maxRms);
-      this.test.reportInfo('Channel ' + channelNumber + ' levels: ' +
+      this.test.reportInfo('Canal ' + channelNumber + ' níveis: ' +
           dBPeak.toFixed(1) + ' dB (peak), ' + dBRms.toFixed(1) + ' dB (RMS)');
       if (dBRms < this.lowVolumeThreshold) {
-        this.test.reportError('Microphone input level is low, increase input ' +
-            'volume or move closer to the microphone.');
+        this.test.reportError('Volume de entrada do microfone está baixo, aumente o volume ou se aproxime do microfone.');
       }
       if (maxClipCount > this.clipCountThreshold) {
-        this.test.reportWarning('Clipping detected! Microphone input level ' +
-            'is high. Decrease input volume or move away from the microphone.');
+        this.test.reportWarning('Áudio saturando! Volume de entrada do microfone está alto, abaixe o volume ou se afaste do microfone.');
       }
       return true;
     }
@@ -214,9 +210,9 @@ MicTest.prototype = {
       }
     }
     if (diffSamples > 0) {
-      this.test.reportInfo('Stereo microphone detected.');
+      this.test.reportInfo('Microfone estéreo detectado.');
     } else {
-      this.test.reportInfo('Mono microphone detected.');
+      this.test.reportInfo('Microfone mono detectado.');
     }
   },
 
