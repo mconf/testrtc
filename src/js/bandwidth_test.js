@@ -94,7 +94,7 @@ DataChannelThroughputTest.prototype = {
       var bitrate = (this.receivedPayloadBytes -
           this.lastReceivedPayloadBytes) / (now - this.lastBitrateMeasureTime);
       bitrate = Math.round(bitrate * 1000 * 8) / 1000;
-      this.test.reportSuccess('Transmitting at ' + bitrate + ' kbps.');
+      this.test.reportSuccess('Transmitindo em ' + bitrate + ' kbps.');
       this.lastReceivedPayloadBytes = this.receivedPayloadBytes;
       this.lastBitrateMeasureTime = now;
     }
@@ -105,8 +105,8 @@ DataChannelThroughputTest.prototype = {
 
       var elapsedTime = Math.round((now - this.startTime) * 10) / 10000.0;
       var receivedKBits = this.receivedPayloadBytes * 8 / 1000;
-      this.test.reportSuccess('Total transmitted: ' + receivedKBits +
-          ' kilo-bits in ' + elapsedTime + ' seconds.');
+      this.test.reportSuccess('Total transmitido: ' + receivedKBits +
+          ' kilo-bits em ' + elapsedTime + ' segundos.');
       this.test.done();
     }
   }
@@ -234,8 +234,7 @@ VideoBandwidthTest.prototype = {
         }
       }
     } else {
-      this.test.reportError('Only Firefox and Chrome getStats implementations' +
-        ' are supported.');
+      this.test.reportError('Somente Firefox e Chrome são suportados neste teste.');
     }
     this.completed();
   },
@@ -255,43 +254,41 @@ VideoBandwidthTest.prototype = {
       // Checking if greater than 2 because Chrome sometimes reports 2x2 when
       // a camera starts but fails to deliver frames.
       if (this.videoStats[0] < 2 && this.videoStats[1] < 2) {
-        this.test.reportError('Camera failure: ' + this.videoStats[0] + 'x' +
-            this.videoStats[1] + '. Cannot test bandwidth without a working ' +
-            ' camera.');
+        this.test.reportError('Falha na webcam: ' + this.videoStats[0] + 'x' +
+            this.videoStats[1] + '. Não foi possível testar a taxa sem uma webcam funcionando.');
       } else {
-        this.test.reportSuccess('Video resolution: ' + this.videoStats[0] +
+        this.test.reportSuccess('Resolução do vídeo: ' + this.videoStats[0] +
             'x' + this.videoStats[1]);
-        this.test.reportInfo('Send bandwidth estimate average: ' +
+        this.test.reportInfo('Taxa de envio média estimada: ' +
             Math.round(this.bweStats.getAverage() / 1000) + ' kbps');
-        this.test.reportInfo('Send bandwidth estimate max: ' +
+        this.test.reportInfo('Taxa de envio máxima estimada: ' +
             this.bweStats.getMax() / 1000 + ' kbps');
-        this.test.reportInfo('Send bandwidth ramp-up time: ' +
+        this.test.reportInfo('Tempo de ramp-up de envio estimado: ' +
             this.bweStats.getRampUpTime() + ' ms');
-        this.test.reportInfo('Packets sent: ' + this.packetsSent);
-        this.test.reportInfo('Packets received: ' + this.packetsReceived);
-        this.test.reportInfo('NACK count: ' + this.nackCount);
-        this.test.reportInfo('Picture loss indications: ' + this.pliCount);
-        this.test.reportInfo('Quality predictor sum: ' + this.qpSum);
-        this.test.reportInfo('Frames encoded: ' + this.framesEncoded);
-        this.test.reportInfo('Frames decoded: ' + this.framesDecoded);
+        this.test.reportInfo('Pacotes enviados: ' + this.packetsSent);
+        this.test.reportInfo('Pacotes recebidos: ' + this.packetsReceived);
+        this.test.reportInfo('Contador de NACK: ' + this.nackCount);
+        this.test.reportInfo('Indicações de perda de imagem: ' + this.pliCount);
+        this.test.reportInfo('Soma do preditor de qualidade: ' + this.qpSum);
+        this.test.reportInfo('Quadros codificados: ' + this.framesEncoded);
+        this.test.reportInfo('Quadros decodificados: ' + this.framesDecoded);
       }
     } else if (adapter.browserDetails.browser === 'firefox') {
       if (parseInt(this.framerateMean) > 0) {
-        this.test.reportSuccess('Frame rate mean: ' +
+        this.test.reportSuccess('Taxa média de quadros: ' +
             parseInt(this.framerateMean));
       } else {
-        this.test.reportError('Frame rate mean is 0, cannot test bandwidth ' +
-            'without a working camera.');
+        this.test.reportError('Taxa média de quadros é 0, não é possível testar a taxa sem uma webcam funcionando.');
       }
-      this.test.reportInfo('Send bitrate mean: ' +
+      this.test.reportInfo('Bitrate de envio (média): ' +
           parseInt(this.bitrateMean) / 1000 + ' kbps');
-      this.test.reportInfo('Send bitrate standard deviation: ' +
+      this.test.reportInfo('Bitrate de envio (desvio padrão): ' +
           parseInt(this.bitrateStdDev) / 1000 + ' kbps');
     }
-    this.test.reportInfo('RTT average: ' + this.rttStats.getAverage() +
+    this.test.reportInfo('RTT médio: ' + this.rttStats.getAverage() +
             ' ms');
-    this.test.reportInfo('RTT max: ' + this.rttStats.getMax() + ' ms');
-    this.test.reportInfo('Packets lost: ' + this.packetsLost);
+    this.test.reportInfo('RTT máximo: ' + this.rttStats.getMax() + ' ms');
+    this.test.reportInfo('Pacotes perdidos: ' + this.packetsLost);
     this.test.done();
   }
 };
@@ -380,21 +377,19 @@ WiFiPeriodicScanTest.prototype = {
     var avg = arrayAverage(this.delays);
     var max = arrayMax(this.delays);
     var min = arrayMin(this.delays);
-    this.test.reportInfo('Average delay: ' + avg + ' ms.');
-    this.test.reportInfo('Min delay: ' + min + ' ms.');
-    this.test.reportInfo('Max delay: ' + max + ' ms.');
+    this.test.reportInfo('Atraso médio: ' + avg + ' ms.');
+    this.test.reportInfo('Atraso mínimo: ' + min + ' ms.');
+    this.test.reportInfo('Atraso máximo: ' + max + ' ms.');
 
     if (this.delays.length < 0.8 * this.testDurationMs / this.sendIntervalMs) {
-      this.test.reportError('Not enough samples gathered. Keep the page on ' +
-          ' the foreground while the test is running.');
+      this.test.reportError('Número de amostras coletadas insuficiente. Mantenha a página visível enquanto o teste está sendo executado.');
     } else {
-      this.test.reportSuccess('Collected ' + this.delays.length +
-          ' delay samples.');
+      this.test.reportSuccess('Coletadas ' + this.delays.length +
+          ' amostras de atraso.');
     }
 
     if (max > (min + 100) * 2) {
-      this.test.reportError('There is a big difference between the min and ' +
-          'max delay of packets. Your network appears unstable.');
+      this.test.reportError('Há uma grande diferença entre atraso mínimo e máximo de pacotes. Sua rede parece estar instável.');
     }
     this.test.done();
   }
