@@ -43,21 +43,20 @@ TODO(andresp): Delay showing the dialog (probably using transitions).
       <h2>{{heading}}</h2>
 
       <div hidden$="[[error]]">
-        <p>To test your webcam, microphone and speakers we need permission to use
-          them, approve by selecting “Allow”.</p>
+        <p>Para testar sua webcam, microfone e alto-falantes nós precisamos de permissão para usá-los, aprove selecionando "Permitir".</p>
       </div>
 
       <div hidden$="[[!error]]">
-        <p>Failed to access your computer's camera and microphone (<span>{{error}}</span>).</p>
+        <p>Não conseguimos acessar a câmera e o microfone do seu computador (<span>{{error}}</span>).</p>
 
-        <p hidden$="[[!_isNotSupported(error)]]">GetUserMedia is not supported in your browser, please use a WebRTC enabled browser listed at <a href="http://www.webrtc.org">http://www.webrtc.org</a>.</p>
-        <p hidden$="[[!_isPermissionDenied(error)]]">Click the <iron-icon icon="av:videocam-off"></iron-icon> icon in the URL bar above to give access to your device's camera and microphone.</p>
-        <p hidden$="[[!_isDevicesNotFound(error)]]">No devices found, please connect a camera and/or a microphone to continue, alternatively continue without media devices.</p>
+        <p hidden$="[[!_isNotSupported(error)]]">GetUserMedia não é suportado pelo seu navegador, por favor utilize um dos navegadores compatíveis com WebRTC listados em <a href="http://www.webrtc.org">http://www.webrtc.org</a>.</p>
+        <p hidden$="[[!_isPermissionDenied(error)]]">Clique no ícone <iron-icon icon="av:videocam-off"></iron-icon> na barra de navegação acima para dar permissão de acesso à sua webcam e microfone.</p>
+        <p hidden$="[[!_isDevicesNotFound(error)]]">Nenhum dispositivo encontrado, por favor conecte uma webcam e/ou um microfone para continuar, ou continue sem nenhum dispositivo de mídia.</p>
       </div>
 
       <div hidden$="[[!error]]" class="buttons" horizontal justified layout>
         <!--paper-button on-tap="_createBugReport">File a bug</paper-button-->
-        <paper-button dialog-dismiss>Continue without audio/or video</paper-button>
+        <paper-button dialog-dismiss>Continuar sem áudio e/ou vídeo</paper-button>
       </div>
     </paper-dialog>
   </template>

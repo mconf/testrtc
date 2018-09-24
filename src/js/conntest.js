@@ -61,9 +61,9 @@ RunConnectivityTest.prototype = {
         // Report candidate info based on iceCandidateFilter.
         if (this.iceCandidateFilter(parsedCandidate)) {
           this.test.reportInfo(
-              'Gathered candidate of Type: ' + parsedCandidate.type +
-            ' Protocol: ' + parsedCandidate.protocol +
-            ' Address: ' + parsedCandidate.address);
+              'Candidato coletado de Tipo: ' + parsedCandidate.type +
+            ' Protocolo: ' + parsedCandidate.protocol +
+            ' Endereço: ' + parsedCandidate.address);
         }
       }
     }.bind(this));
@@ -74,9 +74,9 @@ RunConnectivityTest.prototype = {
     });
     ch1.addEventListener('message', function(event) {
       if (event.data !== 'world') {
-        this.test.reportError('Invalid data transmitted.');
+        this.test.reportError('Dados inválidos transmitidos.');
       } else {
-        this.test.reportSuccess('Data successfully transmitted between peers.');
+        this.test.reportSuccess('Dados transmitidos com sucesso entre os peers.');
       }
       this.hangup();
     }.bind(this));
@@ -108,8 +108,7 @@ RunConnectivityTest.prototype = {
       if (errorMessage === 'Timed out' &&
           this.iceCandidateFilter.toString() === Call.isReflexive.toString() &&
           this.findParsedCandidateOfSpecifiedType(Call.isReflexive)) {
-        this.test.reportWarning('Could not connect using reflexive ' +
-            'candidates, likely due to the network environment/configuration.');
+        this.test.reportWarning('Não foi possível conectar usando candidatos reflexivos, possivelmente devido a um problema de rede.');
       } else {
         this.test.reportError(errorMessage);
       }

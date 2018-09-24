@@ -46,14 +46,14 @@
     }
   </style>
   <template>
-    <gum-dialog heading="Welcome to WebRTC Troubleshooter" pending="{{pending}}"></gum-dialog>
+    <gum-dialog heading="Bem-vindo ao teste de compatibilidade" pending="{{pending}}"></gum-dialog>
 
     <!-- Title toolbar -->
     <paper-toolbar class="titlebar">
-      <span class="title">WebRTC Troubleshooter</span>
-      <paper-icon-button icon="menu" on-tap="openSettingsDialog"></paper-icon-button>
+      <span class="title">Teste de compatibilidade</span>
+      <!--paper-icon-button icon="menu" on-tap="openSettingsDialog"></paper-icon-button-->
       <!--paper-icon-button icon="bug-report" on-tap="openBugReport"></paper-icon-button-->
-      <paper-button id="startButton" on-tap="run" raised disabled>Start</paper-button>
+      <paper-button id="startButton" on-tap="run" raised disabled>Iniciar</paper-button>
     </paper-toolbar>
 
     <!-- Settings dialog -->
@@ -193,14 +193,13 @@
                 if (onFail) {
                   onFail.apply(this, arguments);
                 } else {
-                  reportFatal('Failed to get access to local media due to ' +
-                      'error: ' + error.name);
+                  reportFatal('Falha ao acessar seu dispositivo devido ao erro: ' + error.name);
                 }
               });
         } catch (e) {
           console.log(e);
           traceGumEvent({'status': 'exception', 'error': e.message});
-          return reportFatal('getUserMedia failed with exception: ' +
+          return reportFatal('getUserMedia falhou com o erro: ' +
               e.message);
         }
       },

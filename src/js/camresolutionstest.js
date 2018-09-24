@@ -73,7 +73,7 @@ CamResolutionsTest.prototype = {
           // Do not check actual video frames when more than one resolution is
           // provided.
           if (this.resolutions.length > 1) {
-            this.test.reportSuccess('Supported: ' + resolution[0] + 'x' +
+            this.test.reportSuccess('Suportada: ' + resolution[0] + 'x' +
             resolution[1]);
             stream.getTracks().forEach(function(track) {
               track.stop();
@@ -86,9 +86,9 @@ CamResolutionsTest.prototype = {
         .catch(function(error) {
           if (this.resolutions.length > 1) {
             this.test.reportInfo(resolution[0] + 'x' + resolution[1] +
-            ' not supported');
+            ' não suportada');
           } else {
-            this.test.reportError('getUserMedia failed with error: ' +
+            this.test.reportError('getUserMedia falhou com o erro: ' +
                 error.name);
           }
           this.maybeContinueGetUserMedia();
@@ -106,7 +106,7 @@ CamResolutionsTest.prototype = {
   collectAndAnalyzeStats_: function(stream, resolution) {
     var tracks = stream.getVideoTracks();
     if (tracks.length < 1) {
-      this.test.reportError('No video track in returned stream.');
+      this.test.reportError('Nenhuma trilha de vídeo detectada.');
       this.maybeContinueGetUserMedia();
       return;
     }
@@ -122,14 +122,14 @@ CamResolutionsTest.prototype = {
         if (this.isShuttingDown) {
           return;
         }
-        this.test.reportError('Video track ended, camera stopped working');
+        this.test.reportError('Trilha de vídeo foi interrompida, sua webcam parou de funcionar');
       }.bind(this));
       videoTrack.addEventListener('mute', function() {
         // Ignore events when shutting down the test.
         if (this.isShuttingDown) {
           return;
         }
-        this.test.reportWarning('Your camera reported itself as muted.');
+        this.test.reportWarning('Sua webcam foi pausada.');
         // MediaStreamTrack.muted property is not wired up in Chrome yet,
         // checking isMuted local state.
         this.isMuted = true;
@@ -139,7 +139,7 @@ CamResolutionsTest.prototype = {
         if (this.isShuttingDown) {
           return;
         }
-        this.test.reportInfo('Your camera reported itself as unmuted.');
+        this.test.reportInfo('Sua webcam foi despausada.');
         this.isMuted = false;
       }.bind(this));
     }
@@ -261,33 +261,32 @@ CamResolutionsTest.prototype = {
       }
     }
     if (notAvailableStats.length !== 0) {
-      this.test.reportInfo('Not available: ' + notAvailableStats.join(', '));
+      this.test.reportInfo('Não disponível: ' + notAvailableStats.join(', '));
     }
 
     if (isNaN(info.avgSentFps)) {
-      this.test.reportInfo('Cannot verify sent FPS.');
+      this.test.reportInfo('Não foi possível verificar o FPS enviado.');
     } else if (info.avgSentFps < 5) {
-      this.test.reportError('Low average sent FPS: ' + info.avgSentFps);
+      this.test.reportError('Baixo FPS médio enviado: ' + info.avgSentFps);
     } else {
-      this.test.reportSuccess('Average FPS above threshold');
+      this.test.reportSuccess('FPS médio enviado acima do valor mínimo');
     }
     if (!this.resolutionMatchesIndependentOfRotationOrCrop_(
         info.actualVideoWidth, info.actualVideoHeight, info.mandatoryWidth,
         info.mandatoryHeight)) {
-      this.test.reportError('Incorrect captured resolution.');
+      this.test.reportError('Resolução incorreta capturada.');
     } else {
-      this.test.reportSuccess('Captured video using expected resolution.');
+      this.test.reportSuccess('Vídeo capturado usando a resolução esperada.');
     }
     if (info.testedFrames === 0) {
-      this.test.reportError('Could not analyze any video frame.');
+      this.test.reportError('Não foi possível analisar nenhum frame de vídeo.');
     } else {
       if (info.blackFrames > info.testedFrames / 3) {
-        this.test.reportError('Camera delivering lots of black frames.');
+        this.test.reportError('Webcam capturando muitos quadros pretos.');
       }
       if (info.frozenFrames > info.testedFrames / 3) {
-        this.test.reportError('Camera delivering lots of frozen frames.');
+        this.test.reportError('Webcam capturando muitos quadros congelados.');
       }
     }
   }
 };
-

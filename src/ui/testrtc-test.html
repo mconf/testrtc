@@ -66,10 +66,10 @@
     </iron-collapse>
   </template>
   <script>
-    var PREFIX_INFO    = '[   INFO ]';
-    var PREFIX_OK      = '[     OK ]';
-    var PREFIX_FAILED  = '[ FAILED ]';
-    var PREFIX_WARNING = '[   WARN ]';
+    var PREFIX_INFO    = '[    INFO ]';
+    var PREFIX_OK      = '[      OK ]';
+    var PREFIX_FAILED  = '[  FALHOU ]';
+    var PREFIX_WARNING = '[ ATENÇÃO ]';
 
     Polymer({
       is: 'testrtc-test',
@@ -89,7 +89,7 @@
       },
 
       ready: function() {
-        this.reportMessage_(PREFIX_INFO, 'Test not run yet.');
+        this.reportMessage_(PREFIX_INFO, 'Teste ainda não executado.');
       },
 
       _inProgress: function(value) {
@@ -131,7 +131,7 @@
           // Pass in the "this" object for test reporting and control.
           this.testFunction(this);
         } else {
-          this.reportInfo('Test is disabled.');
+          this.reportInfo('Teste foi desabilitado.');
           this.done();
         }
       },
@@ -164,7 +164,7 @@
 
       expectEquals: function(expected, actual, failMsg, okMsg) {
         if (expected !== actual) {
-          this.reportError('Failed expectation: ' + expected + ' !== ' + actual +
+          this.reportError('Expectativa não atendida: ' + expected + ' !== ' + actual +
                            ': ' + failMsg);
         } else if (okMsg) {
           this.reportSuccess(okMsg);

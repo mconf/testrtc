@@ -248,7 +248,7 @@ Call.asyncCreateTurnConfig = function(onSuccess, onError) {
       'urls': TURN_URL.split(',')
     };
   } else {
-    onError('TURN request failed');
+    onError('Requisição TURN falhou');
     return;
   }
   var config = {'iceServers': [iceServer]};
@@ -269,7 +269,7 @@ Call.asyncCreateStunConfig = function(onSuccess, onError) {
       'urls': STUN_URL.split(',')
     };
   } else {
-    onError('STUN request failed');
+    onError('Requisição STUN falhou');
     return;
   }
   var config = {'iceServers': [iceServer]};

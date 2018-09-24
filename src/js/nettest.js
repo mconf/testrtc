@@ -87,10 +87,9 @@ NetworkTest.prototype = {
       pc = new RTCPeerConnection(config, params);
     } catch (error) {
       if (params !== null && params.optional[0].googIPv6) {
-        this.test.reportWarning('Failed to create peer connection, IPv6 ' +
-            'might not be setup/supported on the network.');
+        this.test.reportWarning('Falha ao abrir a conexão com o peer, IPv6 pode não estar disponível na sua rede.');
       } else {
-        this.test.reportError('Failed to create peer connection: ' + error);
+        this.test.reportError('Falha ao abrir a conexão com o peer: ' + error);
       }
       this.test.done();
       return;
@@ -107,8 +106,8 @@ NetworkTest.prototype = {
       if (e.candidate) {
         var parsed = Call.parseCandidate(e.candidate.candidate);
         if (isGood(parsed)) {
-          this.test.reportSuccess('Gathered candidate of Type: ' + parsed.type +
-              ' Protocol: ' + parsed.protocol + ' Address: ' + parsed.address);
+          this.test.reportSuccess('Candidato coletado do Tipo: ' + parsed.type +
+              ' Protocolo: ' + parsed.protocol + ' Endereço: ' + parsed.address);
           pc.close();
           pc = null;
           this.test.done();
@@ -117,10 +116,9 @@ NetworkTest.prototype = {
         pc.close();
         pc = null;
         if (params !== null && params.optional[0].googIPv6) {
-          this.test.reportWarning('Failed to gather IPv6 candidates, it ' +
-              'might not be setup/supported on the network.');
+          this.test.reportWarning('Falha ao coletar candidatos IPv6, isso pode ser causado por um problema na sua rede.');
         } else {
-          this.test.reportError('Failed to gather specified candidates');
+          this.test.reportError('Falha ao coletar candidatos especificados.');
         }
         this.test.done();
       }
