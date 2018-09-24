@@ -31,11 +31,6 @@ addTest(testSuiteName.CAMERA, testCaseName.CHECKRESOLUTION480, function(test) {
   camResolutionsTest.run();
 });
 
-addTest(testSuiteName.CAMERA, testCaseName.CHECKRESOLUTION720, function(test) {
-  var camResolutionsTest = new CamResolutionsTest(test, [[1280, 720]]);
-  camResolutionsTest.run();
-});
-
 addTest(testSuiteName.CAMERA,
     testCaseName.CHECKSUPPORTEDRESOLUTIONS, function(test) {
       var resolutionArray = [

@@ -16,15 +16,6 @@ addTest(
       runConnectivityTest.run();
     });
 
-// Set up a datachannel between two peers through a public IP address
-// and verify data can be transmitted and received
-// (packets should stay on the link if behind a router doing NAT)
-addTest(testSuiteName.CONNECTIVITY, testCaseName.REFLEXIVECONNECTIVITY,
-    function(test) {
-      var runConnectivityTest = new RunConnectivityTest(test, Call.isReflexive);
-      runConnectivityTest.run();
-    });
-
 // Set up a datachannel between two peers through a local IP address
 // and verify data can be transmitted and received
 // (packets should not leave the machine running the test)

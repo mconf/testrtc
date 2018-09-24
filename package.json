@@ -21,12 +21,12 @@
     "grunt-contrib-clean": ">=0.6.0",
     "grunt-contrib-copy": ">=0.8.0",
     "grunt-contrib-csslint": ">=0.4.0",
-    "grunt-contrib-uglify": "^3.2.1",
-    "grunt-eslint": "^20.1.0",
+    "grunt-contrib-uglify": "^4.0.0",
+    "grunt-eslint": "^21.0.0",
     "grunt-htmlhint": ">=0.4.1",
     "grunt-vulcanize": ">=1.0.0",
-    "webrtc-adapter": "^6.0.2",
-    "webrtc-utilities": "^1.0.6"
+    "webrtc-adapter": "^6.4.0",
+    "webrtc-utilities": "^1.0.9"
   },
   "dependencies": {
     "express": "^4.16.2"
